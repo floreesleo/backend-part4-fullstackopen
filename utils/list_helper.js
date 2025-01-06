@@ -18,11 +18,19 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
   const authors = _.countBy(blogs, "author");
-  console.log(authors);
   const arrayAuthors = _.map(authors, (blogs, author) => ({ author, blogs }));
-  console.log(arrayAuthors);
 
   return _.maxBy(arrayAuthors, "blogs");
 };
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs };
+const mostLikes = (blogs) => {
+  const groupedByAuthor = _.groupBy(blogs, "author");
+  const likesByAuthor = _.map(groupedByAuthor, (blogs, author) => ({
+    author,
+    likes: _.sumBy(blogs, "likes"),
+  }));
+
+  return _.maxBy(likesByAuthor, "likes");
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes };
